@@ -1,7 +1,14 @@
 <template>
     <div class="input-container">
         <label for="input">{{ label }}</label>
-        <input type="number" name="input" :placeholder="placeholder[label]"/>
+        <input 
+            type="number" 
+            name="input" 
+            :placeholder="placeholder[label]"
+            maxlength="2"
+            v-model="inputText"
+            @input="$emit('input-change', {key: label, text: inputText})"
+        />
     </div>
 </template>
 
@@ -21,11 +28,13 @@ export default defineComponent({
     const placeholder: Ref<IPlaceholder> = ref({
         day: "DD",
         month: "MM",
-        year: "yyyy"
+        year: "YYYY"
     });
+    let inputText = ref('');
 
     return {
-        placeholder
+        placeholder,
+        inputText
     }
   }
 })
@@ -50,8 +59,18 @@ export default defineComponent({
         @include get-font(regular);
         border: 1px solid color(neutral, off-white);
         border-radius: 5px;
-        padding: 0.5rem 1rem;
+        padding: 0.75rem 1.25rem;
         color: color(neutral, smokey-grey);
+
+        &:focus {
+            outline: none;
+            border: 2px solid color(neutral, light-grey);
+        }
+    }
+
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
     }
 }
 </style>
