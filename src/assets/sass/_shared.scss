@@ -36,9 +36,3 @@ $fonts: (
     font-weight: map-get(map-get($fonts, $font), weight);
     font-style: map-get(map-get($fonts, $font), style);
 }
-
-body,
-html {
-    margin: 0;
-    box-sizing: border-box;
-}
