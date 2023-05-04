@@ -1,0 +1,44 @@
+$palette: (
+    primary: (purple: hsl(259, 100%, 65%),
+        red: hsl(0, 100%, 67%),
+    ),
+    neutral: (white: hsl(0, 0%, 100%),
+        off-white: hsl(0, 0%, 94%),
+        light-grey: hsl(0, 0%, 86%),
+        smokey-grey: hsl(0, 1%, 44%),
+        off-black: hsl(0, 0%, 8%),
+    )
+);
+
+$input-font: 32px;
+$font-family: 'Poppins';
+
+$fonts: (
+    light: (weight: 400,
+        style: italic,
+    ),
+    regular: (weight: 700,
+        style: normal,
+    ),
+    bold: (weight: 800,
+        style: italic),
+);
+
+@function color($color, $tone) {
+    @return map-get(map-get($palette, $color), $tone);
+}
+
+@function font-weight($tone) {
+    @return map-get($fonts, $tone);
+}
+
+@mixin get-font($font) {
+    font-weight: map-get(map-get($fonts, $font), weight);
+    font-style: map-get(map-get($fonts, $font), style);
+}
+
+body,
+html {
+    margin: 0;
+    box-sizing: border-box;
+}
