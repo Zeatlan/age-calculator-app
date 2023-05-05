@@ -255,11 +255,16 @@ html {
     p {
       margin: 0;
       @include get-font(bold);
-      font-size: 84px;
+      font-weight: 900;
+      font-style: normal;
+      font-size: 96px;
+      line-height: 96px;
       color: color(neutral, off-black);
+      user-select:none;
 
       span {
         color: color(primary, purple);
+        letter-spacing: 1rem;
       }
     }
   }

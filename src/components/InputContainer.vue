@@ -101,6 +101,7 @@ export default defineComponent({
     label {
         text-transform: uppercase;
         @include get-font(regular);
+        font-weight: 700;
         font-size: 12px;
         letter-spacing: 2px;
     }
@@ -108,7 +109,7 @@ export default defineComponent({
     input {
         width: 100px;
         font-size: $input-font;
-        @include get-font(regular);
+        @include get-font(bold);
         border: 1px solid color(neutral, off-white);
         border-radius: 5px;
         padding: 0.75rem 1.25rem;

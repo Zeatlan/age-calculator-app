@@ -54,6 +54,12 @@ $fonts: (
 }
 
 @mixin get-font($font) {
-    font-weight: map-get(map-get($fonts, $font), weight);
-    font-style: map-get(map-get($fonts, $font), style);
+
+    @each $fontName,
+    $fontProperties in $fonts {
+        @if $fontName ==$font {
+            font-weight: map-get($fontProperties, weight);
+            font-style: map-get($fontProperties, style);
+        }
+    }
 }
