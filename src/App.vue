@@ -67,17 +67,35 @@ export default defineComponent({
       
       if(key === 'year') {
         if(text.length >= MAX_LENGTH+2) {
-          years.value = text.slice(0, MAX_LENGTH);
+          years.value = text.slice(0, MAX_LENGTH+2);
           submitButtonRef!.value.focus();
         }
       }
     }
 
+    function reformatDate() {
+      days.value = dayInputRef.value.inputText.toLocaleString('en-US', {
+        minimumIntegerDigits: 2,
+        useGrouping: false,
+      });
+
+      months.value = monthInputRef.value.inputText.toLocaleString('en-US', {
+        minimumIntegerDigits: 2,
+        useGrouping: false,
+      });
+    }
+
     function submitForm() {
-      console.log(months.value);
-      const yearDiff: string = ((new Date().getFullYear() - parseInt(years.value)) - 1).toString();
-      const monthDiff: string = (12-(parseInt(months.value) - (new Date().getMonth() + 1))).toString();
-      const dayDiff: string = (parseInt(days.value) - new Date().getDay()).toString();
+      reformatDate();
+
+      const today = new Date();
+      const birthDate = new Date(`${years.value}-${months.value}-${days.value}`);
+      const diffTime = today.getTime() - birthDate.getTime();
+      const diffDate = new Date(diffTime);
+
+      const yearDiff = diffDate.getUTCFullYear() - 1970;
+      const monthDiff = diffDate.getUTCMonth();
+      const dayDiff = diffDate.getUTCDate() - 1;
 
       Object.assign(ageData, { years: yearDiff, months: monthDiff, days: dayDiff });
     }
