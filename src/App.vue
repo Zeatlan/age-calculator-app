@@ -15,9 +15,9 @@
       </div>
 
       <div class="age-box">
-        <p><span>{{ ageData.years }}</span> years</p>
-        <p><span>{{ ageData.months }}</span> months</p>
-        <p><span>{{ ageData.days }}</span> days</p>
+        <p><span :key="ageData.years">{{ ageData.years }}</span> years</p>
+        <p><span :key="ageData.months">{{ ageData.months }}</span> months</p>
+        <p><span :key="ageData.days">{{ ageData.days }}</span> days</p>
       </div>
     </div>
 </template>
@@ -50,9 +50,10 @@ export default defineComponent({
     });
 
     let isInvalidDate = ref(false);
+    const MAX_LENGTH = 2;
+    
 
     function changeValue({ key, text }: IInputValue) {
-      const MAX_LENGTH = 2;
 
       if(key === 'day') {
         if(text.length >= MAX_LENGTH) {
@@ -91,16 +92,30 @@ export default defineComponent({
     }
 
     function isDateFormatValid(): boolean {
-      const day = parseInt(days.value, 10);
-      const month = parseInt(months.value, 10) - 1; // JavaScript months are 0-based
-      const year = parseInt(years.value, 10);
+      const day = parseInt(days.value);
+      const month = parseInt(months.value) - 1; // JavaScript months are 0-based
+      const year = parseInt(years.value);
       const date = new Date(`${years.value}-${months.value}-${days.value}`);
       return (
         date.getFullYear() === year &&
         date.getMonth() === month &&
         date.getDate() === day
       );
+    }
 
+    const animateValue = (key: keyof typeof ageData, targetValue: number) => {
+      let currentValue = 0;
+      const INTERVAL_TIME = 50;
+
+      const increment = () => {
+        if(currentValue < targetValue) {
+          currentValue++;
+          ageData[key] = currentValue.toString().padStart(MAX_LENGTH, '0');
+          setTimeout(increment, INTERVAL_TIME);
+        }
+      };
+
+      increment();
     }
 
     function submitForm() {
@@ -134,7 +149,11 @@ export default defineComponent({
       const monthDiff = diffDate.getUTCMonth();
       const dayDiff = diffDate.getUTCDate() - 1;
 
-      Object.assign(ageData, { years: yearDiff, months: monthDiff, days: dayDiff });
+      animateValue('years', yearDiff);
+      animateValue('months', monthDiff);
+      animateValue('days', dayDiff);
+
+      //Object.assign(ageData, { years: yearDiff, months: monthDiff, days: dayDiff });
     }
 
     return {
@@ -155,7 +174,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-
 body,
 html {
   margin: 0;
