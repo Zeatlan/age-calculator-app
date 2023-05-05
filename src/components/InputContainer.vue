@@ -2,13 +2,13 @@
     <div class="input-container" :class="{ 'errors' : hasErrors}">
         <label for="input">{{ label }}</label>
         <input 
-            type="number" 
+            type="text" 
             name="input" 
             :placeholder="placeholder[label]"
             min="1"
             max="12"
             ref="inputRef"
-            v-model.number="inputText"
+            v-model="inputText"
             @input="$emit('input-change', {key: label, text: inputText.toString()})"
         />
         <span v-if="errors.isEmptyField">This field is required</span>
