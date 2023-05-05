@@ -176,17 +176,17 @@ html {
 }
 
 .box {
-  width: 60%;
+  width: 50%;
   background: color(neutral, white);
   padding: 3rem;
-  border-radius: 15px;
+  border-radius: 25px;
   border-bottom-right-radius: 200px;
 
   .input-date {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    width: 75%;
+    width: 70%;
 
     .error {
       flex: 1;
@@ -204,7 +204,6 @@ html {
     margin: 1rem 0;
 
     &-line {
-      float: left;
       width: 100%;
       background-color: color(neutral, off-white);
       height: 2px;
@@ -216,9 +215,14 @@ html {
       background-color: color(primary, purple);
       padding: 1rem;
       cursor: pointer;
+      transition: filter 0.3s ease-in-out;
 
+      &:hover {
+        filter: brightness(135%);
+      }
       img {
         width: 40px;
+
       }
     }
   }
@@ -232,6 +236,41 @@ html {
 
       span {
         color: color(primary, purple);
+      }
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .box {
+    width: 75%;
+    padding: 2rem;
+    border-bottom-right-radius: 100px;
+
+    .input-date {
+      width: 100%;
+    }
+
+    .separator {
+      position: relative;
+
+      &-line {
+        position: absolute;
+      }
+
+      button.submit {
+        z-index: 99;
+        margin: 0 auto;
+        
+        img {
+          width: 30px;
+        }
+      }
+    }
+
+    .age-box {
+      p {
+        font-size: 48px;
       }
     }
   }

@@ -146,4 +146,16 @@ export default defineComponent({
         }
     }
 }
+
+
+@media (max-width: 400px) {
+    .input-container {
+        flex: 1;
+        input {
+            width: 50px;
+            font-size: $input-font - 10;
+        }
+
+    }
+}
 </style>
