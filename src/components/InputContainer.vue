@@ -5,9 +5,11 @@
             type="number" 
             name="input" 
             :placeholder="placeholder[label]"
-            maxlength="2"
-            v-model="inputText"
-            @input="$emit('input-change', {key: label, text: inputText})"
+            min="1"
+            max="12"
+            ref="inputRef"
+            v-model.number="inputText"
+            @input="$emit('input-change', {key: label, text: inputText.toString()})"
         />
     </div>
 </template>
@@ -24,17 +26,19 @@ export default defineComponent({
         type: String,
     }
   },
-  setup() {
+  setup(props, { emit }) {
     const placeholder: Ref<IPlaceholder> = ref({
         day: "DD",
         month: "MM",
         year: "YYYY"
     });
     let inputText = ref('');
+    let inputRef = ref(null);
 
     return {
         placeholder,
-        inputText
+        inputText,
+        inputRef
     }
   }
 })

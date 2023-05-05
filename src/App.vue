@@ -1,14 +1,14 @@
 <template>
     <div class="box">
       <div class="input-date">
-        <InputContainer label="day" @input-change="changeValue($event)"/>
-        <InputContainer label="month" @input-change="changeValue($event)" />
-        <InputContainer label="year" @input-change="changeValue($event)" />
+        <InputContainer label="day" @input-change="changeValue($event)" ref="dayInputRef"/>
+        <InputContainer label="month" @input-change="changeValue($event)" ref="monthInputRef"/>
+        <InputContainer label="year" @input-change="changeValue($event)" ref="yearInputRef"/>
       </div>
 
       <div class="separator">
         <div class="separator-line"></div>
-        <button class="submit" @click="submitForm">
+        <button class="submit" @click="submitForm" ref="submitButtonRef">
           <img src="./assets/images/icon-arrow.svg" alt="">
         </button>
       </div>
@@ -25,6 +25,7 @@
 import { defineComponent, reactive, ref } from 'vue'
 import InputContainer from './components/InputContainer.vue';
 import IAge from './utils/IAge';
+import IInputValue from './utils/IInputValue';
 
 export default defineComponent({
   name: 'App',
@@ -36,27 +37,44 @@ export default defineComponent({
     let months = ref('');
     let days = ref('');
 
+    let dayInputRef = ref();
+    let monthInputRef = ref();
+    let yearInputRef = ref();
+    let submitButtonRef = ref();
+
     let ageData: IAge = reactive({
       years: '--',
       months: '--',
       days: '--'
     });
 
-    function changeValue({ key, text }) {
-      switch(key) {
-        case 'day':
-          days.value = text;
-          break;
-        case 'month':
-          months.value = text;
-          break;
-        case 'year':
-          years.value = text;
-          break;
+    function changeValue({ key, text }: IInputValue) {
+      const MAX_LENGTH = 2;
+
+      if(key === 'day') {
+        if(text.length >= MAX_LENGTH) {
+          days.value = text.slice(0, MAX_LENGTH);
+          monthInputRef!.value.inputRef.focus();
+        }
+      }
+
+      if(key === 'month') {
+        if(text.length >= MAX_LENGTH) {
+          months.value = text.slice(0, MAX_LENGTH);
+          yearInputRef!.value.inputRef.focus();
+        }
+      }
+      
+      if(key === 'year') {
+        if(text.length >= MAX_LENGTH+2) {
+          years.value = text.slice(0, MAX_LENGTH);
+          submitButtonRef!.value.focus();
+        }
       }
     }
 
     function submitForm() {
+      console.log(months.value);
       const yearDiff: string = ((new Date().getFullYear() - parseInt(years.value)) - 1).toString();
       const monthDiff: string = (12-(parseInt(months.value) - (new Date().getMonth() + 1))).toString();
       const dayDiff: string = (parseInt(days.value) - new Date().getDay()).toString();
@@ -70,7 +88,11 @@ export default defineComponent({
       months,
       days,
       ageData,
-      submitForm
+      submitForm,
+      dayInputRef,
+      monthInputRef,
+      yearInputRef,
+      submitButtonRef
     }
   }
 })
