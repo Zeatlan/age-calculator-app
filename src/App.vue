@@ -26,8 +26,8 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue'
-import InputContainer from './components/InputContainer.vue';
-import TheFooter from './components/TheFooter.vue';
+import InputContainer from '@/components/InputContainer.vue';
+import TheFooter from '@/components/TheFooter.vue';
 import IAge from './utils/IAge';
 import IInputValue from './utils/IInputValue';
 
@@ -265,7 +265,7 @@ html {
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 1000px) {
   .box {
     width: 75%;
     padding: 2rem;

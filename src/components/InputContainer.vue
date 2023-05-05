@@ -142,12 +142,12 @@ export default defineComponent({
 }
 
 
-@media (max-width: 400px) {
+@media (max-width: 570px) {
     .input-container {
         flex: 1;
         input {
             width: 50px;
-            font-size: $input-font - 10;
+            font-size: $input-font - 14;
         }
 
     }
