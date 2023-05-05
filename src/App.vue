@@ -20,18 +20,22 @@
         <p><span :key="ageData.days">{{ ageData.days }}</span> days</p>
       </div>
     </div>
+
+    <TheFooter />
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue'
 import InputContainer from './components/InputContainer.vue';
+import TheFooter from './components/TheFooter.vue';
 import IAge from './utils/IAge';
 import IInputValue from './utils/IInputValue';
 
 export default defineComponent({
   name: 'App',
   components: {
-    InputContainer
+    InputContainer,
+    TheFooter
   },
   setup() {
     let years = ref('');
@@ -184,8 +188,10 @@ html {
 
 #app {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 2rem;
   height: 100%;
   font-family: $font-family;
   -webkit-font-smoothing: antialiased;

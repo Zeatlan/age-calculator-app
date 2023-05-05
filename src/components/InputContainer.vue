@@ -20,13 +20,7 @@
 <script lang="ts">
 import { Ref, computed, defineComponent, reactive, ref } from 'vue'
 import IPlaceholder from '../utils/IPlaceholder';
-
-interface IErrors {
-    error: boolean;
-    isEmptyField: boolean;
-    isInvalid: boolean;
-    isFuture: boolean;
-}
+import IErrors from '../utils/IErrors';
 
 export default defineComponent({
   name: 'InputContainer',
