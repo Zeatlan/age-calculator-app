@@ -86,6 +86,16 @@ export default defineComponent({
     }
 
     function submitForm() {
+      const tab = [dayInputRef, monthInputRef, yearInputRef];
+
+      tab.forEach(ref => {
+        ref.value.resetErrors();
+        ref.value.checkDate();
+      });
+
+      if(dayInputRef.value.hasErrors || monthInputRef.value.hasErrors || yearInputRef.value.hasErrors) return;
+      console.log("sus")
+
       reformatDate();
 
       const today = new Date();
