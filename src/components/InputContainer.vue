@@ -22,6 +22,7 @@ import { Ref, computed, defineComponent, reactive, ref } from 'vue'
 import IPlaceholder from '../utils/IPlaceholder';
 
 interface IErrors {
+    error: boolean;
     isEmptyField: boolean;
     isInvalid: boolean;
     isFuture: boolean;
@@ -45,6 +46,7 @@ export default defineComponent({
     let inputText = ref('');
     let inputRef = ref(null);
     let errors = reactive<IErrors>({
+        error: false,
         isEmptyField: false,
         isInvalid: false,
         isFuture: false
@@ -76,6 +78,7 @@ export default defineComponent({
 
     function resetErrors() {
         Object.assign(errors, {
+            error: false,
             isEmptyField: false,
             isInvalid: false,
             isFuture: false

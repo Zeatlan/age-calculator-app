@@ -4,6 +4,7 @@
         <InputContainer label="day" @input-change="changeValue($event)" ref="dayInputRef"/>
         <InputContainer label="month" @input-change="changeValue($event)" ref="monthInputRef"/>
         <InputContainer label="year" @input-change="changeValue($event)" ref="yearInputRef"/>
+        <span v-if="isInvalidDate" class="error">Must be a valid date</span>
       </div>
 
       <div class="separator">
@@ -48,6 +49,8 @@ export default defineComponent({
       days: '--'
     });
 
+    let isInvalidDate = ref(false);
+
     function changeValue({ key, text }: IInputValue) {
       const MAX_LENGTH = 2;
 
@@ -74,15 +77,30 @@ export default defineComponent({
     }
 
     function reformatDate() {
-      days.value = dayInputRef.value.inputText.toLocaleString('en-US', {
+      dayInputRef.value.inputText = dayInputRef.value.inputText.toLocaleString('en-US', {
         minimumIntegerDigits: 2,
         useGrouping: false,
       });
+      days.value = dayInputRef.value.inputText;
 
-      months.value = monthInputRef.value.inputText.toLocaleString('en-US', {
+      monthInputRef.value.inputText = monthInputRef.value.inputText.toLocaleString('en-US', {
         minimumIntegerDigits: 2,
         useGrouping: false,
       });
+      months.value = monthInputRef.value.inputText;
+    }
+
+    function isDateFormatValid(): boolean {
+      const day = parseInt(days.value, 10);
+      const month = parseInt(months.value, 10) - 1; // JavaScript months are 0-based
+      const year = parseInt(years.value, 10);
+      const date = new Date(`${years.value}-${months.value}-${days.value}`);
+      return (
+        date.getFullYear() === year &&
+        date.getMonth() === month &&
+        date.getDate() === day
+      );
+
     }
 
     function submitForm() {
@@ -94,9 +112,18 @@ export default defineComponent({
       });
 
       if(dayInputRef.value.hasErrors || monthInputRef.value.hasErrors || yearInputRef.value.hasErrors) return;
-      console.log("sus")
 
       reformatDate();
+
+      if(!isDateFormatValid()) {
+        isInvalidDate.value = true;
+        dayInputRef.value.errors.error = true;
+        monthInputRef.value.errors.error = true;
+        yearInputRef.value.errors.error = true;
+        return;
+      }
+
+      isInvalidDate.value = false;
 
       const today = new Date();
       const birthDate = new Date(`${years.value}-${months.value}-${days.value}`);
@@ -120,7 +147,8 @@ export default defineComponent({
       dayInputRef,
       monthInputRef,
       yearInputRef,
-      submitButtonRef
+      submitButtonRef,
+      isInvalidDate
     }
   }
 })
@@ -157,7 +185,15 @@ html {
   .input-date {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
     width: 75%;
+
+    .error {
+      flex: 1;
+      min-width: 100%;
+      color: color(primary, red);
+      margin-top: 1rem;
+    }
   }
 
   .separator {
